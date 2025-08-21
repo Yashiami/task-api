@@ -43,3 +43,4 @@ go.work.sum
 /modules.xml
 /task-api.iml
 /vcs.xml
+/sqldialects.xml

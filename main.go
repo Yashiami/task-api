@@ -10,6 +10,7 @@ func main() {
 	database.InitDB()
 	router := gin.Default()
 	router.POST("/create", api_cmd.CreateItem)
+	router.GET("/todos", api_cmd.GetItems)
 	router.Run("localhost:8080")
 
 }

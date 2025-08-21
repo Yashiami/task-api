@@ -14,6 +14,7 @@ func CreateItem(c *gin.Context) {
 	if err := c.BindJSON(newTodo); err != nil {
 		return
 	}
+	//не додається в таблицю коли намагаєшся додати з полем user
 	stmt, err := database.DB.Prepare("INSERT INTO todo (title, description) values ($1,$2)")
 	if err != nil {
 		c.IndentedJSON(http.StatusBadRequest, newTodo)
