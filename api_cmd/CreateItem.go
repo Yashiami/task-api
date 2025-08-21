@@ -1,7 +1,29 @@
-﻿package api_cmd
+package api_cmd
 
-import "net/http"
+import (
+	"github.com/gin-gonic/gin"
+	"log"
+	"net/http"
+	"task-api/dataModel"
+	"task-api/database"
+)
 
-func CreateItem(w http.ResponseWriter, r *http.Request) {
-	//
+func CreateItem(c *gin.Context) {
+	var newTodo dataModel.Todo
+
+	if err := c.BindJSON(newTodo); err != nil {
+		return
+	}
+	stmt, err := database.DB.Prepare("INSERT INTO todo (title, description) values ($1,$2)")
+	if err != nil {
+		c.IndentedJSON(http.StatusBadRequest, newTodo)
+		log.Fatal(err)
+		return
+	}
+	if _, err := stmt.Exec(newTodo.Title, newTodo.Description); err != nil {
+		c.IndentedJSON(http.StatusBadRequest, newTodo)
+		log.Fatal(err)
+		return
+	}
+	c.IndentedJSON(http.StatusCreated, newTodo)
 }
