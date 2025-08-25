@@ -11,7 +11,8 @@ import (
 func CreateItem(c *gin.Context) {
 	var newTodo dataModel.Todo
 
-	if err := c.BindJSON(newTodo); err != nil {
+	if err := c.BindJSON(&newTodo); err != nil {
+		log.Fatal(err)
 		return
 	}
 	stmt, err := database.DB.Prepare("INSERT INTO todo (title, description,user_id) values ($1,$2,$3)")

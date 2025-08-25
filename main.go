@@ -12,6 +12,7 @@ func main() {
 	router.POST("/create", api_cmd.CreateItem)
 	router.GET("/todos", api_cmd.GetItems)
 	router.PUT("/todos/:id", api_cmd.UpdateItem)
+	router.DELETE("todos/:id", api_cmd.DeleteItem)
 	router.Run("localhost:8080")
 
 }
