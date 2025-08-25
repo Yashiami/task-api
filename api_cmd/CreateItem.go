@@ -14,14 +14,13 @@ func CreateItem(c *gin.Context) {
 	if err := c.BindJSON(newTodo); err != nil {
 		return
 	}
-	//не додається в таблицю коли намагаєшся додати з полем user
-	stmt, err := database.DB.Prepare("INSERT INTO todo (title, description) values ($1,$2)")
+	stmt, err := database.DB.Prepare("INSERT INTO todo (title, description,user_id) values ($1,$2,$3)")
 	if err != nil {
 		c.IndentedJSON(http.StatusBadRequest, newTodo)
 		log.Fatal(err)
 		return
 	}
-	if _, err := stmt.Exec(newTodo.Title, newTodo.Description); err != nil {
+	if _, err := stmt.Exec(newTodo.Title, newTodo.Description, 1); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, newTodo)
 		log.Fatal(err)
 		return

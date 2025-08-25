@@ -10,8 +10,7 @@ import (
 
 func GetItems(c *gin.Context) {
 	var allItems []dataModel.Todo
-
-	rows, err := database.DB.Query("SELECT * FROM todo")
+	rows, err := database.DB.Query("SELECT title,description FROM todo")
 	if err != nil {
 		c.IndentedJSON(http.StatusBadRequest, nil)
 		log.Fatal(err)
@@ -19,9 +18,7 @@ func GetItems(c *gin.Context) {
 	}
 	for rows.Next() {
 		var currentTodo dataModel.Todo
-		var userID int
-		var ID int
-		err = rows.Scan(&currentTodo.Title, &currentTodo.Description, &userID, &ID)
+		err = rows.Scan(&currentTodo.Title, &currentTodo.Description)
 		if err != nil {
 			log.Fatal(err)
 		}
