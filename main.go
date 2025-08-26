@@ -13,6 +13,7 @@ func main() {
 	defer database.DB.Close()
 	router.POST("/add-todo", api_cmd.CreateItem)
 	router.POST("/sighup", auth.CreateUser)
+	router.POST("/auth", auth.AuthorizationUser)
 	router.GET("/todo", api_cmd.GetItems)
 	router.PUT("/todo/:id", api_cmd.UpdateItem)
 	router.DELETE("todo/:id", api_cmd.DeleteItem)

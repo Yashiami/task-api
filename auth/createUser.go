@@ -27,7 +27,7 @@ func CreateUser(c *gin.Context) {
 		log.Fatal(err)
 		return
 	}
-	cryptedSecret, err := bcrypt.GenerateFromPassword([]byte(body.Username+body.Email), 10)
+	cryptedSecret, err := bcrypt.GenerateFromPassword([]byte(body.Username+body.Email), 50)
 	if err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "Cannot encode secret"})
 		log.Fatal(err)
