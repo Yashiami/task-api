@@ -5,10 +5,17 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"task-api/auth"
 	"task-api/database"
 )
 
 func DeleteItem(c *gin.Context) {
+	userId, err := auth.GetUserId(c)
+	if err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "Unauthorized"})
+		log.Fatal(err)
+		return
+	}
 	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
@@ -16,8 +23,6 @@ func DeleteItem(c *gin.Context) {
 		log.Fatal(err)
 		return
 	}
-	//userId := findRequestUserId()
-	userId := 2
 	rowCheck := database.DB.QueryRow(`SELECT title FROM todo WHERE user_id = $1 AND id = $2`, userId, id)
 	var titleTodo string
 	if rowCheck.Scan(&titleTodo) != nil {

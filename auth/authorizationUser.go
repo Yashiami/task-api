@@ -43,7 +43,6 @@ func AuthorizationUser(c *gin.Context) {
 		"user": body.Email,
 		"exp":  time.Now().Add(time.Hour * 24).Unix(),
 	})
-
 	// Sign and get the complete encoded token as a string using the secret
 	tokenString, err := token.SignedString([]byte(secret))
 	if err != nil {
